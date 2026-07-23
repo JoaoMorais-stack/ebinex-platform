@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ebinex is a fictional local paper-trading and portfolio simulation for demonstration purposes.">
+    <title>Ebinex | Paper Trading Lab</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="demo-strip">
+      <strong>SIMULATION</strong>
+      <span>Fictional markets and virtual balances. Local demonstration only.</span>
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" aria-label="Ebinex dashboard">
+          <span class="brand-mark" aria-hidden="true">E</span>
+          <span>Ebinex<small>Paper Lab</small></span>
+        </a>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <button class="nav-item active" type="button" data-view="dashboard"><span aria-hidden="true">01</span>Overview</button>
+          <button class="nav-item" type="button" data-view="markets"><span aria-hidden="true">02</span>Markets</button>
+          <button class="nav-item" type="button" data-view="simulator"><span aria-hidden="true">03</span>Simulator</button>
+          <button class="nav-item" type="button" data-view="portfolio"><span aria-hidden="true">04</span>Portfolio</button>
+          <button class="nav-item" type="button" data-view="activity"><span aria-hidden="true">05</span>Activity</button>
+          <button class="nav-item" type="button" data-view="settings"><span aria-hidden="true">06</span>Settings</button>
+        </nav>
+
+        <div class="sidebar-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div><strong>Local engine</strong><small>Deterministic dataset</small></div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <label class="search">
+            <span class="search-symbol" aria-hidden="true">/</span>
+            <input id="market-search" type="search" placeholder="Search fictional markets" autocomplete="off" maxlength="24">
+          </label>
+          <div class="profile">
+            <span class="avatar" id="profile-initials">AN</span>
+            <div><strong id="profile-name">Avery Nova</strong><small>Local demo profile</small></div>
+          </div>
+        </header>
+
+        <section id="view-root" tabindex="-1" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="confirm-dialog" class="dialog">
+      <form method="dialog">
+        <p class="eyebrow">Reset simulation</p>
+        <h2>Restore the fictional starting scenario?</h2>
+        <p>This clears only the disposable local demonstration state.</p>
+        <div class="dialog-actions">
+          <button class="button secondary" value="cancel">Cancel</button>
+          <button class="button danger" id="confirm-reset" value="confirm">Reset demo</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
