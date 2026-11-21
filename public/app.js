@@ -77,7 +77,7 @@ function pageHead(eyebrow, title, description, actions = "") {
 }
 
 function assetCell(item) {
-  return `<div class="asset"><span class="asset-badge" style="--asset-color:${item.color}">${escapeHtml(item.symbol)}</span><div><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.symbol)}</small></div></div>`;
+  return `<div class="asset"><span class="asset-badge" data-style="--asset-color:${item.color}">${escapeHtml(item.symbol)}</span><div><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.symbol)}</small></div></div>`;
 }
 
 function marketRows(markets = app.data.markets) {
@@ -108,7 +108,7 @@ function allocationList() {
   const total = app.data.portfolio.invested || 1;
   return `<div class="allocation-list">${app.data.portfolio.positions.map((position) => {
     const percentage = Math.max(0, Math.min(100, (position.value / total) * 100));
-    return `<div class="allocation-row"><span>${position.symbol}</span><div class="bar"><i style="width:${percentage.toFixed(2)}%;--bar-color:${position.color}"></i></div><strong>${percentage.toFixed(1)}%</strong></div>`;
+    return `<div class="allocation-row"><span>${position.symbol}</span><div class="bar"><i data-style="width:${percentage.toFixed(2)}%;--bar-color:${position.color}"></i></div><strong>${percentage.toFixed(1)}%</strong></div>`;
   }).join("")}</div>`;
 }
 
@@ -117,10 +117,10 @@ function dashboardView() {
   const tracked = app.data.markets.filter((item) => app.data.watchlist.includes(item.symbol));
   return `${pageHead("Paper trading overview", "Portfolio pulse", "A deterministic snapshot of a fictional portfolio and market scenario.", `<button class="button primary" type="button" data-view="simulator">New simulation</button>`)}
     <div class="grid kpi-grid">
-      <article class="card kpi" style="--kpi-color:var(--green)"><span>Simulated equity</span><strong>${displayValue(p.total)}</strong><small>Virtual assets plus cash</small></article>
-      <article class="card kpi" style="--kpi-color:var(--blue)"><span>Virtual cash</span><strong>${displayValue(p.virtualCash)}</strong><small>Available in this scenario</small></article>
-      <article class="card kpi" style="--kpi-color:var(--amber)"><span>Invested value</span><strong>${displayValue(p.invested)}</strong><small>${p.positions.length} fictional positions</small></article>
-      <article class="card kpi" style="--kpi-color:var(--red)"><span>Scenario change</span><strong class="positive">+4.82%</strong><small>Illustrative 30-day window</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--green)"><span>Simulated equity</span><strong>${displayValue(p.total)}</strong><small>Virtual assets plus cash</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--blue)"><span>Virtual cash</span><strong>${displayValue(p.virtualCash)}</strong><small>Available in this scenario</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--amber)"><span>Invested value</span><strong>${displayValue(p.invested)}</strong><small>${p.positions.length} fictional positions</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--red)"><span>Scenario change</span><strong class="positive">+4.82%</strong><small>Illustrative 30-day window</small></article>
     </div>
     <div class="grid dashboard-grid">
       <article class="card chart-card">
@@ -146,7 +146,7 @@ function marketsView() {
       </article>
       <article class="card"><header class="card-header"><div><h2>Selected asset</h2><p>${escapeHtml(focus.name)}</p></div></header><div class="chart-wrap"><canvas id="market-chart" aria-label="Illustrative market series"></canvas></div><button class="button primary" type="button" data-trade="${focus.symbol}">Simulate ${focus.symbol}</button></article>
     </div>
-    <article class="card" style="margin-top:18px"><header class="card-header"><div><h2>All fictional markets</h2><p>${filtered.length} results</p></div></header><div class="table-wrap"><table class="data-table"><thead><tr><th>Asset</th><th>Price</th><th>24h</th><th>Low</th><th>High</th><th>Track</th></tr></thead><tbody>${marketRows(filtered)}</tbody></table></div></article>`;
+    <article class="card" data-style="margin-top:18px"><header class="card-header"><div><h2>All fictional markets</h2><p>${filtered.length} results</p></div></header><div class="table-wrap"><table class="data-table"><thead><tr><th>Asset</th><th>Price</th><th>24h</th><th>Low</th><th>High</th><th>Track</th></tr></thead><tbody>${marketRows(filtered)}</tbody></table></div></article>`;
 }
 
 function simulatorView() {
@@ -161,7 +161,7 @@ function simulatorView() {
           <div><div class="market-price">${displayValue(selected.price, selected.price < 1 ? 4 : 2)}</div><div class="market-symbol">Fixed fictional quote</div></div>
           <div class="market-stats"><div class="market-stat"><span>Owned</span><strong>${formatNumber(owned)} ${selected.symbol}</strong></div><div class="market-stat"><span>Virtual cash</span><strong>${displayValue(app.data.portfolio.virtualCash)}</strong></div><div class="market-stat"><span>Execution</span><strong>Immediate simulation</strong></div></div>
         </article>
-        <article class="card"><header class="card-header"><div><h2>Illustrative depth</h2><p>Generated locally for presentation</p></div></header><div class="depth-list">${depth.map((multiplier, index) => `<div class="depth-row ${index < 3 ? "ask" : ""}" style="--depth:${38 + index * 9}%"><span>${displayValue(selected.price * multiplier, selected.price < 1 ? 4 : 2)}</span><span>${formatNumber((index + 2) * 1.274, 3)} ${selected.symbol}</span></div>`).join("")}</div></article>
+        <article class="card"><header class="card-header"><div><h2>Illustrative depth</h2><p>Generated locally for presentation</p></div></header><div class="depth-list">${depth.map((multiplier, index) => `<div class="depth-row ${index < 3 ? "ask" : ""}" data-style="--depth:${38 + index * 9}%"><span>${displayValue(selected.price * multiplier, selected.price < 1 ? 4 : 2)}</span><span>${formatNumber((index + 2) * 1.274, 3)} ${selected.symbol}</span></div>`).join("")}</div></article>
       </div>
       <article class="card ticket">
         <header class="card-header"><div><h2>Simulation ticket</h2><p>No real asset is involved</p></div></header>
@@ -182,9 +182,9 @@ function portfolioView() {
   return `${pageHead("Virtual holdings", "Portfolio", "Review the composition of the current fictional scenario.", `<button class="button primary" type="button" data-view="simulator">Adjust scenario</button>`)}
     <div class="grid kpi-grid">
       <article class="card kpi"><span>Total simulation value</span><strong>${displayValue(p.total)}</strong><small>Fictional valuation</small></article>
-      <article class="card kpi" style="--kpi-color:var(--blue)"><span>Virtual cash</span><strong>${displayValue(p.virtualCash)}</strong><small>${((p.virtualCash / p.total) * 100).toFixed(1)}% of total</small></article>
-      <article class="card kpi" style="--kpi-color:var(--amber)"><span>Position value</span><strong>${displayValue(p.invested)}</strong><small>${p.positions.length} assets</small></article>
-      <article class="card kpi" style="--kpi-color:var(--red)"><span>Largest position</span><strong>${p.positions.sort((a,b) => b.value - a.value)[0]?.symbol || "-"}</strong><small>By simulated value</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--blue)"><span>Virtual cash</span><strong>${displayValue(p.virtualCash)}</strong><small>${((p.virtualCash / p.total) * 100).toFixed(1)}% of total</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--amber)"><span>Position value</span><strong>${displayValue(p.invested)}</strong><small>${p.positions.length} assets</small></article>
+      <article class="card kpi" data-style="--kpi-color:var(--red)"><span>Largest position</span><strong>${p.positions.sort((a,b) => b.value - a.value)[0]?.symbol || "-"}</strong><small>By simulated value</small></article>
     </div>
     <article class="card"><header class="card-header"><div><h2>Positions</h2><p>Calculated with fixed local prices</p></div></header><div class="table-wrap"><table class="data-table"><thead><tr><th>Asset</th><th>Quantity</th><th>Price</th><th>Value</th><th>24h</th><th></th></tr></thead><tbody>${p.positions.map((item) => `<tr><td>${assetCell(item)}</td><td>${formatNumber(item.quantity)}</td><td>${displayValue(item.price, item.price < 1 ? 4 : 2)}</td><td>${displayValue(item.value)}</td><td class="${item.change >= 0 ? "positive" : "negative"}">${item.change >= 0 ? "+" : ""}${item.change.toFixed(2)}%</td><td><button class="button secondary" type="button" data-trade="${item.symbol}">Simulate</button></td></tr>`).join("")}</tbody></table></div></article>`;
 }
@@ -203,7 +203,7 @@ function settingsView() {
         <div class="setting-row"><div><strong>Compact density</strong><small>Reduce spacing in tables and panels</small></div><button class="toggle ${settings.compactMode ? "active" : ""}" type="button" role="switch" aria-checked="${settings.compactMode}" aria-label="Compact density" data-toggle="compactMode"></button></div>
         <div class="setting-row"><div><strong>Reduced motion</strong><small>Disable interface transitions</small></div><button class="toggle ${settings.reducedMotion ? "active" : ""}" type="button" role="switch" aria-checked="${settings.reducedMotion}" aria-label="Reduced motion" data-toggle="reducedMotion"></button></div>
       </div></article>
-      <article class="card"><header class="card-header"><div><h2>Demonstration boundary</h2><p>Designed for safe portfolio review</p></div></header><div class="notice">Ebinex runs on the loopback interface with fictional users, deterministic market data and virtual balances. It has no account connection, live market feed or real-world transaction capability.</div><div class="settings-list" style="margin-top:14px"><div class="setting-row"><div><strong>Network mode</strong><small>Loopback only</small></div><strong class="positive">127.0.0.1</strong></div><div class="setting-row"><div><strong>Market source</strong><small>Bundled scenario</small></div><strong>Local</strong></div><div class="setting-row"><div><strong>State</strong><small>Excluded from version control</small></div><strong>Disposable</strong></div></div></article>
+      <article class="card"><header class="card-header"><div><h2>Demonstration boundary</h2><p>Designed for safe portfolio review</p></div></header><div class="notice">Ebinex runs on the loopback interface with fictional users, deterministic market data and virtual balances. It has no account connection, live market feed or real-world transaction capability.</div><div class="settings-list" data-style="margin-top:14px"><div class="setting-row"><div><strong>Network mode</strong><small>Loopback only</small></div><strong class="positive">127.0.0.1</strong></div><div class="setting-row"><div><strong>Market source</strong><small>Bundled scenario</small></div><strong>Local</strong></div><div class="setting-row"><div><strong>State</strong><small>Excluded from version control</small></div><strong>Disposable</strong></div></div></article>
     </div>`;
 }
 
@@ -217,10 +217,24 @@ function render() {
   document.querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === app.view && button.classList.contains("nav-item")));
   const views = { dashboard: dashboardView, markets: marketsView, simulator: simulatorView, portfolio: portfolioView, activity: activityView, settings: settingsView };
   root.innerHTML = (views[app.view] || dashboardView)();
+  applyDataStyles(root);
   requestAnimationFrame(drawCurrentCharts);
 }
 
-function drawLineChart(canvas, primary, secondary, colors = ["#1ed3a2", "#4aa8ff"]) {
+// O CSP do servidor (style-src 'self') bloqueia atributos style no HTML gerado.
+// Os estilos de apresentação (cores, larguras) vão em data-style e são aplicados
+// pela CSSOM, que a política permite.
+function applyDataStyles(scope) {
+  scope.querySelectorAll("[data-style]").forEach((element) => {
+    element.dataset.style.split(";").forEach((declaration) => {
+      const index = declaration.indexOf(":");
+      if (index < 1) return;
+      element.style.setProperty(declaration.slice(0, index).trim(), declaration.slice(index + 1).trim());
+    });
+  });
+}
+
+function drawLineChart(canvas, primary, secondary, colors = ["#a78bfa", "#2ee6b6"]) {
   if (!canvas) return;
   const rect = canvas.getBoundingClientRect();
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -236,22 +250,54 @@ function drawLineChart(canvas, primary, secondary, colors = ["#1ed3a2", "#4aa8ff
   const maximum = Math.max(...all) * 1.03;
   const y = (value) => height - padding - ((value - minimum) / (maximum - minimum || 1)) * (height - padding * 2);
   const x = (index, length) => padding + (index / Math.max(1, length - 1)) * (width - padding * 2);
-  context.strokeStyle = "#27333e";
+  // grade discreta e tracejada
+  context.strokeStyle = "rgba(167, 139, 250, 0.12)";
   context.lineWidth = 1;
+  context.setLineDash([3, 5]);
   for (let row = 0; row < 5; row += 1) {
     const py = padding + row * ((height - padding * 2) / 4);
     context.beginPath(); context.moveTo(padding, py); context.lineTo(width - padding, py); context.stroke();
   }
-  [primary, secondary].filter(Boolean).forEach((series, seriesIndex) => {
+  context.setLineDash([]);
+  const trace = (series) => {
     context.beginPath();
     series.forEach((value, index) => {
       const px = x(index, series.length); const py = y(value);
       if (index === 0) context.moveTo(px, py); else context.lineTo(px, py);
     });
-    context.strokeStyle = colors[seriesIndex];
-    context.lineWidth = seriesIndex === 0 ? 3 : 2;
+  };
+  // séries secundárias primeiro, a principal por cima com área em degradê e brilho
+  [secondary, primary].forEach((series, order) => {
+    if (!series) return;
+    const isPrimary = order === 1;
+    const color = isPrimary ? colors[0] : colors[1];
+    if (isPrimary) {
+      trace(series);
+      context.lineTo(x(series.length - 1, series.length), height - padding);
+      context.lineTo(x(0, series.length), height - padding);
+      context.closePath();
+      const fill = context.createLinearGradient(0, padding, 0, height - padding);
+      fill.addColorStop(0, "rgba(139, 92, 246, 0.38)");
+      fill.addColorStop(1, "rgba(139, 92, 246, 0)");
+      context.fillStyle = fill;
+      context.fill();
+    }
+    trace(series);
+    context.strokeStyle = color;
+    context.lineWidth = isPrimary ? 2.6 : 1.8;
     context.lineJoin = "round";
+    context.lineCap = "round";
+    context.shadowColor = color;
+    context.shadowBlur = isPrimary ? 14 : 6;
+    context.globalAlpha = isPrimary ? 1 : 0.85;
     context.stroke();
+    context.shadowBlur = 0;
+    context.globalAlpha = 1;
+    if (isPrimary) {
+      const lx = x(series.length - 1, series.length); const ly = y(series[series.length - 1]);
+      context.beginPath(); context.arc(lx, ly, 4.5, 0, Math.PI * 2);
+      context.fillStyle = "#fff"; context.shadowColor = color; context.shadowBlur = 16; context.fill(); context.shadowBlur = 0;
+    }
   });
 }
 
